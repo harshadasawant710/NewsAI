@@ -1,14 +1,17 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from "motion/react"
-import {Button} from '@mantine/core'
-import {X, Menu} from 'lucide-react'
+import { Button } from '@mantine/core'
+import { X, Menu } from 'lucide-react'
+import { useSelector } from 'react-redux'
+import ProfileDropDown from './ProfileDropDown'
 
 const Navbar = () => {
+    const { authenticated } = useSelector((state) => state.auth)
     //console.log(import.meta.env.VITE_API_URL)
-    const [isOpen, setIsOpen]= useState(false)
+    const [isOpen, setIsOpen] = useState(false)
 
-    const handleClick = () =>{
+    const handleClick = () => {
         setIsOpen(!isOpen)
     }
     return (
@@ -33,13 +36,19 @@ const Navbar = () => {
                     }
                 </ul>
                 <div className='flex space-x-4 items-center justify-center'>
-                    <Link to='/login' className='hidden md:block'>
-                    <Button className='mx-1' variant="outline">LogIn</Button>
-                    </Link>
-                    <Link to='register' className='hidden md:block'>
-                    <Button className='mx-1' variant="outline">Register</Button>
-                    </Link>
-                    <button className='md:hidden' onClick={handleClick}>{isOpen ? <X/> : <Menu/>}</button>
+                    {!authenticated &&
+                        <>
+                            <Link to='/login' className='hidden md:block'>
+                                <Button className='mx-1' variant="outline">LogIn</Button>
+                            </Link>
+                            <Link to='register' className='hidden md:block'>
+                                <Button className='mx-1' variant="outline">Register</Button>
+                            </Link>
+                        </>
+                    }
+                    {authenticated && <ProfileDropDown />}
+
+                    <button className='md:hidden' onClick={handleClick}>{isOpen ? <X /> : <Menu />}</button>
                 </div>
             </div>
 
@@ -60,12 +69,20 @@ const Navbar = () => {
                             {item}
                         </Link>
                     ))}
-                    <Link to='/login' className='w-full text-center' onClick={() => setIsOpen(false)}>
-                        <Button className='w-3/4' variant="outline">LogIn</Button>
-                    </Link>
-                    <Link to='/register' className='w-full text-center' onClick={() => setIsOpen(false)}>
-                        <Button className='w-3/4' variant="outline">Register</Button>
-                    </Link>
+
+                    {!authenticated &&
+                        <>
+                            <Link to='/login' className='w-full text-center' onClick={() => setIsOpen(false)}>
+                                <Button className='w-3/4' variant="outline">LogIn</Button>
+                            </Link>
+                            <Link to='/register' className='w-full text-center' onClick={() => setIsOpen(false)}>
+                                <Button className='w-3/4' variant="outline">Register</Button>
+                            </Link>
+                        </>
+                    }
+                    {authenticated && <ProfileDropDown />}
+
+
                 </motion.div>
             )}
         </nav>

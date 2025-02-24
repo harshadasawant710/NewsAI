@@ -1,14 +1,34 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'motion/react'
 import { Mail, Lock, Unlock, SquareUserRound,TriangleAlert  } from 'lucide-react'
 import { Button } from '@mantine/core'
-import { Link } from 'react-router-dom'
+import { Link, Navigate,useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import {z} from 'zod'
 import {zodResolver} from '@hookform/resolvers/zod'
+import { useDispatch, useSelector } from 'react-redux'
+import { LoginUser } from '../Redux/slice/authSlice'
 
 
 const LogIn = () => {
+
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const {authenticated, preferences} = useSelector((state)=>state.auth)
+
+    useEffect(()=>{
+        if(authenticated && preferences.length > 0){
+            navigate('/')
+        }
+        else if (authenticated && preferences.length <= 0){
+            navigate('/preferences')
+        }
+
+        // if(authenticated){
+        //     navigate('/')
+        // }
+    },[authenticated])
 
     const LoginSchema = z.object({
         email:z 
@@ -24,7 +44,9 @@ const LogIn = () => {
     });
 
     const onsubmit= (data) =>{
+        dispatch(LoginUser(data))
         console.log(data)
+        // navigate('/')
     }
 
     const [isLock, setIsLock] = useState(false)

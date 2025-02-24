@@ -2,7 +2,8 @@ import express from "express"
 import dotenv from "dotenv"
 import dbConnect from "./config/db.js";
 import userRoutes from './routes/userRoutes.js'
-import cors from "cors"; // ✅ Import CORS
+import cors from "cors"; 
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -10,10 +11,12 @@ app.use(express.json())
 dotenv.config()
 dbConnect();
 
-app.use(cors({ // ✅ Allow frontend to call API
+app.use(cors({ 
     origin: "http://localhost:5173",
-    credentials: true, // ✅ Allows cookies if used
+    credentials: true, 
 }));
+
+app.use(cookieParser());
 
 app.use('/auth',userRoutes)
 

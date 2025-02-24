@@ -25,6 +25,8 @@ export const login = async (req, res) => {
             httpOnly: true
         })
         res.status(200).json({
+            // token,
+            preferences : user.preferences,
             message: 'login successful'
         })
     }
@@ -33,6 +35,19 @@ export const login = async (req, res) => {
 
     }
 
+}
+
+export const verify = async (req,res) =>{
+console.log(req.user,"verify")
+if(!req.user){
+
+}else{
+    return res.status(200).json({
+        authenticated : true,
+        id :req.user.id,
+        name : req.user.name
+    })
+}
 }
 
 export const register = async (req, res) => {
