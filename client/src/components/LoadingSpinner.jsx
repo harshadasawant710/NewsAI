@@ -3,7 +3,7 @@ import { Loader } from '@mantine/core'
 
 const LoadingSpinner = () => {
   return (
-    <div className='h-scrren justify-center items-center'>
+    <div className='h-scrren flex justify-center items-center'>
       <Loader/>
     </div>
   )

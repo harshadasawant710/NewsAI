@@ -1,11 +1,13 @@
 import React from 'react'
-import Preferences from './preferences'
+import Catagory from '../components/Catagory'
+import HeroSection from '../components/HeroSection'
 
 const Home = () => {
   return (
     <div>
       homeee
-      <Preferences/>
+      <HeroSection/>
+      <Catagory/>
     </div>
   )
 }

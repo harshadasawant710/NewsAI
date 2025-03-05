@@ -4,17 +4,21 @@ import './index.css'
 import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import { MantineProvider } from '@mantine/core'
-import { Provider } from 'react-redux' // Import Provider
-import store from './Redux/store.js' // Import your Redux store
+import { Provider } from 'react-redux'
+import store from './Redux/store.js'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+const queryClient = new QueryClient()
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <Provider store={store}> {/* Wrap the app with Redux Provider */}
+  // <StrictMode>
+    <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <MantineProvider>
-          <App />
-        </MantineProvider>
+        <Provider store={store}>
+          <MantineProvider>
+            <App />
+          </MantineProvider>
+        </Provider>
       </BrowserRouter>
-    </Provider>
-  </StrictMode>,
+    </QueryClientProvider>
+  // </StrictMode>
 )

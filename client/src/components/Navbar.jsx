@@ -5,6 +5,7 @@ import { Button } from '@mantine/core'
 import { X, Menu } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import ProfileDropDown from './ProfileDropDown'
+import BellIcone from '../components/BellIcon'
 
 const Navbar = () => {
     const { authenticated } = useSelector((state) => state.auth)
@@ -23,14 +24,14 @@ const Navbar = () => {
                     className='text-2xl font-semibold'>NEWS</motion.h1>
                 <ul className='hidden md:flex gap-4'>
                     {
-                        ['Home', 'Categories', 'Channels', 'About'].map((item) =>
+                        ['Home', 'catagory', 'Channels', 'About'].map((item) =>
                         (
                             <motion.li
                                 whileHover={{ scale: 1.1 }}
                                 transition={{ type: 'spring', stiffness: 100 }}
                                 key={item}
                                 className='hover:text-gray-700'>
-                                <Link to={`/${item.toLowerCase()}`}>{item}</Link>
+                                <Link to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}>{item}</Link>
                             </motion.li>
                         ))
                     }
@@ -46,7 +47,12 @@ const Navbar = () => {
                             </Link>
                         </>
                     }
-                    {authenticated && <ProfileDropDown />}
+                    {authenticated && (
+                        <>
+                            <BellIcone />   
+                            <ProfileDropDown />
+                        </>
+                    )}
 
                     <button className='md:hidden' onClick={handleClick}>{isOpen ? <X /> : <Menu />}</button>
                 </div>
